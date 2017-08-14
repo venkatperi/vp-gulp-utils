@@ -16,6 +16,7 @@
     "rimraf": "^2.6.1"
   },
   "devDependencies": {
+    "memory-streams": "^0.1.2",
     "mocha": "^3.5.0"
   }
 }
