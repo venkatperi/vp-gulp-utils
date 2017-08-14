@@ -20,7 +20,7 @@
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 const gulp = require( 'gulp' );
-const tasks = require( '../../' );
+const tasks = require( '../../' )( gulp );
 
 tasks.spawnTask( 'sleep', {
   cmd: 'sleep',

@@ -20,8 +20,8 @@
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 const assert = require( 'assert' );
-const tasks = require( '..' );
 const gulp = require( 'gulp' );
+const tasks = require( '..' )( gulp );
 
 describe( 'delayTask', () => {
   it( 'delays', ( done ) => {
