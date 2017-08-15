@@ -24,18 +24,73 @@ const gulp = require( 'gulp' );
 const tasks = require( '..' )( gulp );
 const path = require( 'path' );
 const memoryStreams = require( 'memory-streams' );
+const uniqueString = require( 'unique-string' );
+
+const testStr = 'this is a test';
 
 describe( 'spawnTask', () => {
-  it( 'stdio', ( done ) => {
-    const output = new memoryStreams.WritableStream();
-    tasks.spawnTask( 'cmd', {
-      cmd: 'cat',
-      args: [path.resolve( __dirname, 'fixtures/test.txt' )],
-      stdout: output
+
+  let output = null;
+  let input = null;
+  beforeEach( () => {
+    input = new memoryStreams.ReadableStream();
+    output = new memoryStreams.WritableStream();
+  } );
+
+  describe( 'redirects', () => {
+
+    it( 'stdio', ( done ) => {
+      tasks.spawnTask( 'cat:file', {
+        cmd: 'cat',
+        args: [path.resolve( __dirname, 'fixtures/test.txt' )],
+        stdout: output
+      } );
+      gulp.task( 'cat:file:verify', ['cat:file'], () =>
+        assert.equal( output.toString().trim(), testStr )
+      );
+      gulp.start( 'cat:file:verify', done );
     } );
-    gulp.task( 'output', ['cmd'], () => {
-      assert.equal( output.toString().trim(), 'this is a test' )
+
+    it( 'stdin', ( done ) => {
+      tasks.spawnTask( 'cat:stdin', {
+        cmd: 'cat',
+        stdin: input,
+        stdout: output
+      } );
+      input.append( testStr );
+      gulp.task( 'cat:stdin:verify', ['cat:stdin'], () =>
+        assert.equal( output.toString().trim(), testStr )
+      );
+      gulp.start( 'cat:stdin:verify', done );
     } );
-    gulp.start( 'output', done );
-  } )
+
+    it( 'stderr', ( done ) => {
+      const badFile = path.resolve( __dirname, 'fixtures/badfile.txt' );
+
+      tasks.spawnTask( 'cat:badfile', {
+        cmd: 'cat',
+        args: [badFile],
+        stderr: output
+      } );
+      gulp.task( 'cat:badfile:verify', ['cat:badfile'], () =>
+        done( new Error( 'should not get here' ) )
+      );
+      gulp.start( 'cat:badfile:verify', ( err ) => {
+        assert( err instanceof Error );
+        assert.equal(output.toString().trim(), `cat: ${badFile}: No such file or directory`)
+        done();
+      } );
+    } );
+  } );
+
+  it( 'fails on bad command', ( done ) => {
+    tasks.spawnTask( 'badCmd', {
+      cmd: uniqueString(),
+    } );
+    gulp.start( 'badCmd', ( err ) => {
+      assert( err instanceof Error );
+      done();
+    } );
+  } );
+
 } );

@@ -1,10 +1,11 @@
 {
   "name": "vp-gulp-utils",
-  "version": "1.0.3",
+  "version": "0.0.0-development",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "author": "",
   "license": "MIT",
@@ -16,7 +17,14 @@
     "rimraf": "^2.6.1"
   },
   "devDependencies": {
+    "has-gulplog": "^0.1.0",
     "memory-streams": "^0.1.2",
-    "mocha": "^3.5.0"
+    "mocha": "^3.5.0",
+    "semantic-release": "^6.3.6",
+    "unique-string": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/venkatperi/vp-gulp-utils.git"
   }
 }
