@@ -11,13 +11,12 @@
   "license": "MIT",
   "dependencies": {
     "cross-spawn-promise": "^0.10.1",
-    "gulp": "^3.9.1",
     "gulp-util": "^3.0.8",
     "pify": "^3.0.0",
     "rimraf": "^2.6.1"
   },
   "devDependencies": {
-    "has-gulplog": "^0.1.0",
+    "gulp": "^3.9.1",
     "memory-streams": "^0.1.2",
     "mocha": "^3.5.0",
     "semantic-release": "^6.3.6",
