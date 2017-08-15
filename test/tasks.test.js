@@ -24,10 +24,16 @@ const gulp = require( 'gulp' );
 const tasks = require( '..' )( gulp );
 
 describe( 'delayTask', () => {
+
   it( 'delays', ( done ) => {
+    const start = process.hrtime();
     tasks.delayTask( 't1', { duration: 3000 } );
+
     gulp.task( 't2', ['t1'], () => {
-    } )
+      const diff = process.hrtime( start );
+      assert( diff[0] === 3 );
+    } );
+
     gulp.start( 't2', done );
   } )
 } );
