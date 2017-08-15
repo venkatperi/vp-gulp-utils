@@ -16,7 +16,9 @@
     "rimraf": "^2.6.1"
   },
   "devDependencies": {
+    "documentation": "^5.2.1",
     "gulp": "^3.9.1",
+    "gulp-documentation": "^3.2.1",
     "memory-streams": "^0.1.2",
     "mocha": "^3.5.0",
     "semantic-release": "^6.3.6",
